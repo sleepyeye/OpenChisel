@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -27,55 +27,44 @@
 
 #include <open_chisel/FixedPointFloat.h>
 
-namespace chisel
-{
+namespace chisel {
 
-    class DistVoxel
-    {
-        public:
-            DistVoxel();
-            virtual ~DistVoxel();
+class DistVoxel {
+public:
+  DistVoxel();
+  virtual ~DistVoxel();
 
-            inline float GetSDF() const
-            {
-                return sdf;
-            }
+  inline float GetSDF() const { return sdf; }
 
-            inline void SetSDF(const float& distance)
-            {
-                sdf = distance;
-            }
+  inline void SetSDF(const float &distance) { sdf = distance; }
 
-            inline float GetWeight() const { return weight; }
-            inline void SetWeight(const float& w) { weight = w; }
+  inline float GetWeight() const { return weight; }
+  inline void SetWeight(const float &w) { weight = w; }
 
-            inline void Integrate(const float& distUpdate, const float& weightUpdate)
-            {
-                float oldSDF = GetSDF();
-                float oldWeight = GetWeight();
-                float newDist = (oldWeight * oldSDF + weightUpdate * distUpdate) / (weightUpdate + oldWeight);
-                SetSDF(newDist);
-                SetWeight(oldWeight + weightUpdate);
+  inline void Integrate(const float &distUpdate, const float &weightUpdate) {
+    float oldSDF = GetSDF();
+    float oldWeight = GetWeight();
+    float newDist = (oldWeight * oldSDF + weightUpdate * distUpdate) /
+                    (weightUpdate + oldWeight);
+    SetSDF(newDist);
+    SetWeight(oldWeight + weightUpdate);
+  }
 
-            }
+  inline void Carve() {
+    // Reset();
+    Integrate(0.0, 1.5);
+  }
 
-            inline void Carve()
-            {
-                //Reset();
-                Integrate(0.0, 1.5);
-            }
+  inline void Reset() {
+    sdf = 99999;
+    weight = 0;
+  }
 
-            inline void Reset()
-            {
-                sdf = 99999;
-                weight = 0;
-            }
+protected:
+  float sdf;
+  float weight;
+};
 
-        protected:
-           float sdf;
-           float weight;
-    };
+} // namespace chisel
 
-} // namespace chisel 
-
-#endif // DISTVOXEL_H_ 
+#endif // DISTVOXEL_H_

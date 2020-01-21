@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,55 +22,43 @@
 #ifndef PLANE_H_
 #define PLANE_H_
 
-#include <memory>
 #include "Geometry.h"
+#include <memory>
 
-namespace chisel
-{
+namespace chisel {
 
-    class Plane
-    {
-        public:
+class Plane {
+public:
+  enum class IntersectionType { Inside, Outside, Intersects };
 
-            enum class IntersectionType
-            {
-                Inside,
-                Outside,
-                Intersects
-            };
+  Plane();
+  Plane(const Vec4 &params);
+  Plane(const Vec3 &normal, float distance);
+  Plane(const Vec3 &p1, const Vec3 &p2, const Vec3 &p3);
+  Plane(float a, float b, float c, float d);
+  virtual ~Plane();
 
-            Plane();
-            Plane(const Vec4& params);
-            Plane(const Vec3& normal, float distance);
-            Plane(const Vec3& p1, const Vec3& p2, const Vec3& p3);
-            Plane(float a, float b, float c, float d);
-            virtual ~Plane();
+  float GetSignedDistance(const Vec3 &point) const;
 
-            float GetSignedDistance(const Vec3& point) const;
+  inline IntersectionType ClassifyPoint(const Vec3 &point) const {
+    float d = GetSignedDistance(point);
 
-            inline IntersectionType ClassifyPoint(const Vec3& point) const
-            {
-                float d = GetSignedDistance(point);
+    if (d < 0) {
+      return IntersectionType::Inside;
+    } else if (d > 0) {
+      return IntersectionType::Outside;
+    }
+    return IntersectionType::Intersects;
+  }
 
-                if(d < 0)
-                {
-                    return IntersectionType::Inside;
-                }
-                else if(d > 0)
-                {
-                    return IntersectionType::Outside;
-                }
-                return IntersectionType::Intersects;
-            }
+  Vec3 normal;
+  float distance;
 
-            Vec3 normal;
-            float distance;
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+};
+typedef std::shared_ptr<Plane> PlanePtr;
+typedef std::shared_ptr<const Plane> PlaneConstPtr;
 
-            EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-    };
-    typedef std::shared_ptr<Plane> PlanePtr;
-    typedef std::shared_ptr<const Plane> PlaneConstPtr;
+} // namespace chisel
 
-} // namespace chisel 
-
-#endif // PLANE_H_ 
+#endif // PLANE_H_

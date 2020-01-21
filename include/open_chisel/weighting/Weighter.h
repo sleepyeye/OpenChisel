@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,23 +22,18 @@
 #ifndef WEIGHTER_H_
 #define WEIGHTER_H_
 
-namespace chisel
-{
+namespace chisel {
 
-    class Weighter
-    {
-        public:
-            Weighter() = default;
-            virtual ~Weighter()
-            {
+class Weighter {
+public:
+  Weighter() = default;
+  virtual ~Weighter() {}
 
-            }
+  virtual float GetWeight(float surfaceDist, float truncationDist) const = 0;
+};
+typedef std::shared_ptr<Weighter> WeighterPtr;
+typedef std::shared_ptr<const Weighter> WeighterConstPtr;
 
-            virtual float GetWeight(float surfaceDist, float truncationDist) const = 0;
-    };
-    typedef std::shared_ptr<Weighter> WeighterPtr;
-    typedef std::shared_ptr<const Weighter> WeighterConstPtr;
+} // namespace chisel
 
-} // namespace chisel 
-
-#endif // WEIGHTER_H_ 
+#endif // WEIGHTER_H_

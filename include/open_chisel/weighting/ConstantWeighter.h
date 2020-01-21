@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,34 +24,24 @@
 
 #include "Weighter.h"
 
-namespace chisel
-{
+namespace chisel {
 
-    class ConstantWeighter : public Weighter
-    {
-        public:
-            ConstantWeighter() = default;
-            ConstantWeighter(float w)
-            {
-                weight = w;
-            }
-            virtual ~ConstantWeighter()
-            {
+class ConstantWeighter : public Weighter {
+public:
+  ConstantWeighter() = default;
+  ConstantWeighter(float w) { weight = w; }
+  virtual ~ConstantWeighter() {}
 
-            }
+  virtual float GetWeight(float surfaceDist, float truncationDist) const {
+    return weight / (2 * truncationDist);
+  }
 
-            virtual float GetWeight(float surfaceDist, float truncationDist) const
-            {
-                return weight / (2 * truncationDist);
-            }
+protected:
+  float weight;
+};
+typedef std::shared_ptr<ConstantWeighter> ConstantWeighterPtr;
+typedef std::shared_ptr<const ConstantWeighter> ConstantWeighterConstPtr;
 
-        protected:
-            float weight;
+} // namespace chisel
 
-    };
-    typedef std::shared_ptr<ConstantWeighter> ConstantWeighterPtr;
-    typedef std::shared_ptr<const ConstantWeighter> ConstantWeighterConstPtr;
-
-} // namespace chisel 
-
-#endif // CONSTANTWEIGHTER_H_ 
+#endif // CONSTANTWEIGHTER_H_

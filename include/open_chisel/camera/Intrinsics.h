@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,35 +25,33 @@
 #include <memory>
 #include <open_chisel/geometry/Geometry.h>
 
-namespace chisel
-{
+namespace chisel {
 
-    class Intrinsics
-    {
-        public:
-            EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-            Intrinsics();
-            virtual ~Intrinsics();
+class Intrinsics {
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+  Intrinsics();
+  virtual ~Intrinsics();
 
-            inline float GetFx() const { return matrix(0, 0); }
-            inline void SetFx(float fx) { matrix(0, 0) = fx; }
-            inline float GetFy() const { return matrix(1, 1); }
-            inline void SetFy(float fy) { matrix(1, 1) = fy; }
-            inline float GetCx() const { return matrix(0, 2); }
-            inline void SetCx(float cx) { matrix(0, 2) = cx; }
-            inline float GetCy() const { return matrix(1, 2); }
-            inline void SetCy(float cy) { matrix(1, 2) = cy; }
+  inline float GetFx() const { return matrix(0, 0); }
+  inline void SetFx(float fx) { matrix(0, 0) = fx; }
+  inline float GetFy() const { return matrix(1, 1); }
+  inline void SetFy(float fy) { matrix(1, 1) = fy; }
+  inline float GetCx() const { return matrix(0, 2); }
+  inline void SetCx(float cx) { matrix(0, 2) = cx; }
+  inline float GetCy() const { return matrix(1, 2); }
+  inline void SetCy(float cy) { matrix(1, 2) = cy; }
 
-            inline const Mat3x3& GetMatrix() const { return matrix; }
-            inline Mat3x3& GetMutableMatrix() { return matrix; }
-            inline void SetMatrix(const Mat3x3& m) { matrix = m; }
+  inline const Mat3x3 &GetMatrix() const { return matrix; }
+  inline Mat3x3 &GetMutableMatrix() { return matrix; }
+  inline void SetMatrix(const Mat3x3 &m) { matrix = m; }
 
-        protected:
-            Mat3x3 matrix;
-    };
-    typedef std::shared_ptr<Intrinsics> IntrinsicsPtr;
-    typedef std::shared_ptr<const Intrinsics> IntrinsicsConstPtr;
+protected:
+  Mat3x3 matrix;
+};
+typedef std::shared_ptr<Intrinsics> IntrinsicsPtr;
+typedef std::shared_ptr<const Intrinsics> IntrinsicsConstPtr;
 
-} // namespace chisel 
+} // namespace chisel
 
-#endif // INTRINSICS_H_ 
+#endif // INTRINSICS_H_

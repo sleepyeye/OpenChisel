@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,21 +19,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
 #ifndef INTERPOLATE_H_
 #define INTERPOLATE_H_
 
-namespace chisel
-{
-    inline float LinearInterpolate(float s, float e, float t)
-    {
-        return s+(e-s)*t;
-    }
-
-    inline float BilinearInterpolate(float c00, float c10, float c01, float c11, float tx, float ty)
-    {
-        return LinearInterpolate(LinearInterpolate(c00, c10, tx), LinearInterpolate(c01, c11, tx), ty);
-    }
+namespace chisel {
+inline float LinearInterpolate(float s, float e, float t) {
+  return s + (e - s) * t;
 }
 
-#endif // INTERPOLATE_H_ 
+inline float BilinearInterpolate(float c00, float c10, float c01, float c11,
+                                 float tx, float ty) {
+  return LinearInterpolate(LinearInterpolate(c00, c10, tx),
+                           LinearInterpolate(c01, c11, tx), ty);
+}
+} // namespace chisel
+
+#endif // INTERPOLATE_H_

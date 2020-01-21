@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,39 +24,28 @@
 
 #include "Truncator.h"
 
-namespace chisel
-{
+namespace chisel {
 
-    class ConstantTruncator : public Truncator
-    {
-        public:
-            ConstantTruncator() = default;
+class ConstantTruncator : public Truncator {
+public:
+  ConstantTruncator() = default;
 
-            ConstantTruncator(float value) :
-                truncationDistance(value)
-            {
+  ConstantTruncator(float value) : truncationDistance(value) {}
 
-            }
+  virtual ~ConstantTruncator() {}
 
-            virtual ~ConstantTruncator()
-            {
+  inline void SetTruncationDistance(float value) { truncationDistance = value; }
 
-            }
+  float GetTruncationDistance(float reading) const {
+    return truncationDistance;
+  }
 
-            inline void SetTruncationDistance(float value) { truncationDistance = value; }
+protected:
+  float truncationDistance;
+};
+typedef std::shared_ptr<ConstantTruncator> ConstantTruncatorPtr;
+typedef std::shared_ptr<const ConstantTruncator> ConstantTruncatorConstPtr;
 
-            float GetTruncationDistance(float reading) const
-            {
-                return truncationDistance;
-            }
+} // namespace chisel
 
-        protected:
-            float truncationDistance;
-
-    };
-    typedef std::shared_ptr<ConstantTruncator> ConstantTruncatorPtr;
-    typedef std::shared_ptr<const ConstantTruncator> ConstantTruncatorConstPtr;
-
-} // namespace chisel 
-
-#endif // CONSTANTTRUNCATOR_H_ 
+#endif // CONSTANTTRUNCATOR_H_

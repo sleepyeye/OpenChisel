@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -23,52 +23,49 @@
 #define PINHOLECAMERA_H_
 
 #include <memory>
-#include <open_chisel/geometry/Geometry.h>
-#include <open_chisel/geometry/Frustum.h>
 #include <open_chisel/camera/Intrinsics.h>
+#include <open_chisel/geometry/Frustum.h>
+#include <open_chisel/geometry/Geometry.h>
 
-namespace chisel
-{
+namespace chisel {
 
-    class PinholeCamera
-    {
-        public:
-            EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+class PinholeCamera {
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-            PinholeCamera();
-            virtual ~PinholeCamera();
+  PinholeCamera();
+  virtual ~PinholeCamera();
 
-            inline const Intrinsics& GetIntrinsics() const { return intrinsics; }
-            inline Intrinsics& GetMutableIntrinsics() { return intrinsics; }
-            inline void SetIntrinsics(const Intrinsics& value) { intrinsics = value; }
+  inline const Intrinsics &GetIntrinsics() const { return intrinsics; }
+  inline Intrinsics &GetMutableIntrinsics() { return intrinsics; }
+  inline void SetIntrinsics(const Intrinsics &value) { intrinsics = value; }
 
-            inline int GetWidth() const { return width; }
-            inline int GetHeight() const { return height; }
-            inline void SetWidth(int value) { width = value; }
-            inline void SetHeight(int value) { height = value; }
-            inline float GetNearPlane() const { return nearPlane; }
-            inline float GetFarPlane() const { return farPlane; }
-            inline void SetNearPlane(float value) { nearPlane = value; }
-            inline void SetFarPlane(float value) { farPlane = value; }
+  inline int GetWidth() const { return width; }
+  inline int GetHeight() const { return height; }
+  inline void SetWidth(int value) { width = value; }
+  inline void SetHeight(int value) { height = value; }
+  inline float GetNearPlane() const { return nearPlane; }
+  inline float GetFarPlane() const { return farPlane; }
+  inline void SetNearPlane(float value) { nearPlane = value; }
+  inline void SetFarPlane(float value) { farPlane = value; }
 
-            void SetupFrustum(const Transform& view, Frustum* frustum) const;
+  void SetupFrustum(const Transform &view, Frustum *frustum) const;
 
-            Vec3 ProjectPoint(const Vec3& point) const;
-            Vec3 UnprojectPoint(const Vec3& point) const;
+  Vec3 ProjectPoint(const Vec3 &point) const;
+  Vec3 UnprojectPoint(const Vec3 &point) const;
 
-            bool IsPointOnImage(const Vec3& point) const;
+  bool IsPointOnImage(const Vec3 &point) const;
 
-        protected:
-            Intrinsics intrinsics;
-            int width;
-            int height;
-            float nearPlane;
-            float farPlane;
+protected:
+  Intrinsics intrinsics;
+  int width;
+  int height;
+  float nearPlane;
+  float farPlane;
+};
+typedef std::shared_ptr<PinholeCamera> PinholeCameraPtr;
+typedef std::shared_ptr<const PinholeCamera> PinholeCameraConstPtr;
 
-    };
-    typedef std::shared_ptr<PinholeCamera> PinholeCameraPtr;
-    typedef std::shared_ptr<const PinholeCamera> PinholeCameraConstPtr;
+} // namespace chisel
 
-} // namespace chisel 
-
-#endif // PINHOLECAMERA_H_ 
+#endif // PINHOLECAMERA_H_

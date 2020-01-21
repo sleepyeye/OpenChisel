@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -21,50 +21,32 @@
 
 #include <open_chisel/geometry/Plane.h>
 
-namespace chisel
-{
+namespace chisel {
 
-    Plane::Plane()
-    {
+Plane::Plane() {}
 
-    }
+Plane::Plane(const Vec4 &params)
+    : normal(Vec3(params(0), params(1), params(2))), distance(params(3)) {}
 
-    Plane::Plane(const Vec4& params) :
-        normal(Vec3(params(0), params(1), params(2))), distance(params(3))
-    {
+Plane::Plane(const Vec3 &_normal, float _distance)
+    : normal(_normal), distance() {}
 
-    }
+Plane::Plane(const Vec3 &a, const Vec3 &b, const Vec3 &c) {
+  Vec3 ab = b - a;
+  Vec3 ac = c - a;
 
-    Plane::Plane(const Vec3& _normal, float _distance) :
-            normal(_normal), distance()
-    {
+  Vec3 cross = ab.cross(ac);
+  normal = cross.normalized();
+  distance = -(cross.dot(a));
+}
 
-    }
+Plane::Plane(float a, float b, float c, float d)
+    : normal(a, b, c), distance(d) {}
 
-    Plane::Plane(const Vec3& a, const Vec3& b, const Vec3& c)
-    {
-        Vec3 ab = b - a;
-        Vec3 ac = c - a;
+float Plane::GetSignedDistance(const Vec3 &point) const {
+  return point.dot(normal) + distance;
+}
 
-        Vec3 cross = ab.cross(ac);
-        normal = cross.normalized();
-        distance = -(cross.dot(a));
-    }
+Plane::~Plane() {}
 
-    Plane::Plane(float a, float b, float c, float d) :
-                normal(a, b, c), distance(d)
-    {
-
-    }
-
-    float Plane::GetSignedDistance(const Vec3& point) const
-    {
-        return point.dot(normal) + distance;
-    }
-
-    Plane::~Plane()
-    {
-
-    }
-
-} // namespace chisel 
+} // namespace chisel

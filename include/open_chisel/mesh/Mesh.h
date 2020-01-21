@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -23,42 +23,38 @@
 #define MESH_H_
 
 #include <memory>
-#include <vector>
 #include <open_chisel/geometry/Geometry.h>
+#include <vector>
 
-namespace chisel
-{
-    typedef size_t VertIndex;
-    typedef std::vector<VertIndex> VertIndexList;
-    class Mesh
-    {
-        public:
-            EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
-            Mesh();
-            virtual ~Mesh();
+namespace chisel {
+typedef size_t VertIndex;
+typedef std::vector<VertIndex> VertIndexList;
+class Mesh {
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
+  Mesh();
+  virtual ~Mesh();
 
-            inline bool HasVertices() const { return !vertices.empty(); }
-            inline bool HasNormals() const { return !normals.empty(); }
-            inline bool HasColors() const { return !colors.empty(); }
-            inline bool HasIndices() const { return !indices.empty(); }
+  inline bool HasVertices() const { return !vertices.empty(); }
+  inline bool HasNormals() const { return !normals.empty(); }
+  inline bool HasColors() const { return !colors.empty(); }
+  inline bool HasIndices() const { return !indices.empty(); }
 
-            inline void Clear()
-            {
-                vertices.clear();
-                normals.clear();
-                colors.clear();
-                indices.clear();
-            }
+  inline void Clear() {
+    vertices.clear();
+    normals.clear();
+    colors.clear();
+    indices.clear();
+  }
 
-            Vec3List vertices;
-            VertIndexList indices;
-            Vec3List normals;
-            Vec3List colors;
+  Vec3List vertices;
+  VertIndexList indices;
+  Vec3List normals;
+  Vec3List colors;
+};
+typedef std::shared_ptr<Mesh> MeshPtr;
+typedef std::shared_ptr<const Mesh> MeshConstPtr;
 
-    };
-    typedef std::shared_ptr<Mesh> MeshPtr;
-    typedef std::shared_ptr<const Mesh> MeshConstPtr;
+} // namespace chisel
 
-} // namespace chisel 
-
-#endif // MESH_H_ 
+#endif // MESH_H_

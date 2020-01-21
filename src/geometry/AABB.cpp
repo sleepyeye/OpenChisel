@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -21,58 +21,45 @@
 
 #include <open_chisel/geometry/AABB.h>
 
-namespace chisel
-{
+namespace chisel {
 
-    AABB::AABB()
-    {
+AABB::AABB() {}
 
-    }
+AABB::AABB(const Vec3 &_min, const Vec3 &_max) : min(_min), max(_max) {}
 
-    AABB::AABB(const Vec3& _min, const Vec3& _max) :
-            min(_min), max(_max)
-    {
+Plane::IntersectionType AABB::Intersects(const Plane &plane) const {
+  // check all corner side of plane
+  Vec3 ext = GetExtents();
 
-    }
+  Vec3List corners;
+  corners.resize(8);
+  corners[0] = max;
+  corners[1] = min;
+  corners[2] = min + Vec3(ext(0), 0, 0);
+  corners[3] = min + Vec3(0, ext(1), 0);
+  corners[4] = min + Vec3(0, 0, ext(2));
+  corners[5] = min + Vec3(ext(0), 0, ext(2));
+  corners[6] = min + Vec3(ext(0), ext(1), 0);
+  corners[7] = min + Vec3(0, ext(1), ext(2));
 
-    Plane::IntersectionType AABB::Intersects(const Plane& plane) const
-    {
-        //check all corner side of plane
-        Vec3 ext = GetExtents();
+  float lastdistance = plane.normal.dot(corners[0]) + plane.distance;
 
-        Vec3List corners;
-        corners.resize(8);
-        corners[0] = max;
-        corners[1] = min;
-        corners[2] = min + Vec3(ext(0), 0, 0);
-        corners[3] = min + Vec3(0, ext(1), 0);
-        corners[4] = min + Vec3(0, 0, ext(2));
-        corners[5] = min + Vec3(ext(0), 0, ext(2));
-        corners[6] = min + Vec3(ext(0), ext(1), 0);
-        corners[7] = min + Vec3(0, ext(1), ext(2));
+  for (int i = 1; i < 8; i++) {
+    float distance = plane.normal.dot(corners[i]) + plane.distance;
 
-        float lastdistance = plane.normal.dot(corners[0]) + plane.distance;
+    if ((distance <= 0.0f && lastdistance > 0.0f) ||
+        (distance >= 0.0f && lastdistance < 0.0f))
+      return Plane::IntersectionType::Intersects;
 
-        for (int i = 1; i < 8; i++)
-        {
-            float distance = plane.normal.dot(corners[i]) + plane.distance;
+    lastdistance = distance;
+  }
 
-            if ((distance <= 0.0f && lastdistance > 0.0f) || (distance >= 0.0f && lastdistance < 0.0f))
-                return Plane::IntersectionType::Intersects;
+  if (lastdistance > 0.0f)
+    return Plane::IntersectionType::Outside;
 
-            lastdistance = distance;
-        }
+  return Plane::IntersectionType::Inside;
+}
 
-        if (lastdistance > 0.0f)
-            return Plane::IntersectionType::Outside;
+AABB::~AABB() {}
 
-        return Plane::IntersectionType::Inside;
-
-    }
-
-    AABB::~AABB()
-    {
-
-    }
-
-} // namespace chisel 
+} // namespace chisel

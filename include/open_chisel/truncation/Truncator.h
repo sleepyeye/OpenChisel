@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,23 +22,18 @@
 #ifndef TRUNCATOR_H_
 #define TRUNCATOR_H_
 
-namespace chisel
-{
+namespace chisel {
 
-    class Truncator
-    {
-        public:
-            Truncator() = default;
-            virtual ~Truncator()
-            {
+class Truncator {
+public:
+  Truncator() = default;
+  virtual ~Truncator() {}
 
-            }
+  virtual float GetTruncationDistance(float depthReading) const = 0;
+};
 
-            virtual float GetTruncationDistance(float depthReading) const = 0;
-    };
+typedef std::shared_ptr<Truncator> TruncatorPtr;
+typedef std::shared_ptr<const Truncator> TruncatorConstPtr;
+} // namespace chisel
 
-    typedef std::shared_ptr<Truncator> TruncatorPtr;
-    typedef std::shared_ptr<const Truncator> TruncatorConstPtr;
-} // namespace chisel 
-
-#endif // TRUNCATOR_H_ 
+#endif // TRUNCATOR_H_

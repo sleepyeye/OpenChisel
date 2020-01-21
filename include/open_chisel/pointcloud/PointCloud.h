@@ -8,8 +8,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -23,59 +23,44 @@
 #define POINTCLOUD_H_
 
 #include <memory>
-#include <vector>
 #include <open_chisel/geometry/Geometry.h>
+#include <vector>
 
-namespace chisel
-{
+namespace chisel {
 
-    class PointCloud
-    {
-        public:
-            PointCloud();
-            virtual ~PointCloud();
+class PointCloud {
+public:
+  PointCloud();
+  virtual ~PointCloud();
 
-            inline bool HasColor() const
-            {
-                return !colors.empty();
-            }
+  inline bool HasColor() const { return !colors.empty(); }
 
-            inline const Vec3List& GetPoints() const { return points; }
-            inline Vec3List& GetMutablePoints() { return points; }
-            inline const Vec3List& GetColors() const { return colors; }
-            inline Vec3List& GetMutableColors() { return colors; }
+  inline const Vec3List &GetPoints() const { return points; }
+  inline Vec3List &GetMutablePoints() { return points; }
+  inline const Vec3List &GetColors() const { return colors; }
+  inline Vec3List &GetMutableColors() { return colors; }
 
+  inline void AddPoint(const Vec3 &point) { points.push_back(point); }
 
-            inline void AddPoint(const Vec3& point)
-            {
-                points.push_back(point);
-            }
+  inline void AddColor(const Vec3 &color) { colors.push_back(color); }
 
-            inline void AddColor(const Vec3& color)
-            {
-                colors.push_back(color);
-            }
+  inline void AddPointAndColor(const Vec3 &point, const Vec3 &color) {
+    AddPoint(point);
+    AddColor(color);
+  }
 
-            inline void AddPointAndColor(const Vec3& point, const Vec3& color)
-            {
-                AddPoint(point);
-                AddColor(color);
-            }
+  inline void Clear() {
+    points.clear();
+    colors.clear();
+  }
 
-            inline void Clear()
-            {
-                points.clear();
-                colors.clear();
-            }
+protected:
+  Vec3List points;
+  Vec3List colors;
+};
+typedef std::shared_ptr<PointCloud> PointCloudPtr;
+typedef std::shared_ptr<const PointCloud> PointCloudConstPtr;
 
+} // namespace chisel
 
-        protected:
-            Vec3List points;
-            Vec3List colors;
-    };
-    typedef std::shared_ptr<PointCloud> PointCloudPtr;
-    typedef std::shared_ptr<const PointCloud> PointCloudConstPtr;
-
-} // namespace chisel 
-
-#endif // POINTCLOUD_H_ 
+#endif // POINTCLOUD_H_
