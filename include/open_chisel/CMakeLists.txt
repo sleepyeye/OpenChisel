@@ -1,0 +1,30 @@
+# Add target headers
+target_sources(OpenChisel
+  PUBLIC
+  Chisel.h
+  Chunk.h
+  ChunkManager.h
+  ColorVoxel.h
+  DistVoxel.h
+  FixedPointFloat.h
+  ProjectionIntegrator.h
+  camera/ColorImage.h
+  camera/DepthImage.h
+  camera/Intrinsics.h
+  camera/PinholeCamera.h
+  geometry/AABB.h
+  geometry/Frustum.h
+  geometry/Interpolate.h
+  geometry/Geometry.h
+  geometry/Plane.h
+  geometry/Raycast.h
+  io/PLY.h
+  marching_cubes/MarchingCubes.h
+  mesh/Mesh.h
+  pointcloud/PointCloud.h
+  threading/Threading.h
+  truncation/ConstantTruncator.h
+  truncation/QuadraticTruncator.h
+  truncation/Truncator.h
+  weighting/Weighter.h
+  weighting/ConstantWeighter.h)

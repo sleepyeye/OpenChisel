@@ -1,0 +1,19 @@
+# Add target sources
+target_sources(OpenChisel
+  PUBLIC
+  Chisel.cpp
+  Chunk.cpp
+  ChunkManager.cpp
+  ColorVoxel.cpp
+  DistVoxel.cpp
+  ProjectionIntegrator.cpp
+  camera/Intrinsics.cpp
+  camera/PinholeCamera.cpp
+  geometry/AABB.cpp
+  geometry/Frustum.cpp
+  geometry/Plane.cpp
+  geometry/Raycast.cpp
+  io/PLY.cpp
+  marching_cubes/MarchingCubes.cpp
+  mesh/Mesh.cpp
+  pointcloud/PointCloud.cpp)
