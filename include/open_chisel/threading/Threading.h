@@ -23,9 +23,10 @@
 #ifndef THREADING_H_
 #define THREADING_H_
 
+#include <algorithm>
 #include <cstddef>
 #include <thread>
-#include <algorithm>
+#include <vector>
 
 namespace chisel
 {
